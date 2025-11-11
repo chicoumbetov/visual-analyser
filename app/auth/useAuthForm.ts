@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-import { DASHBOARD_URL } from '@/src/config/url.config'
+import { PUBLIC_URL } from '@/src/config/url.config'
 import { authService } from '@/src/services/auth/auth.service'
 import { IAuthForm } from '@/src/shared/domain/entities/auth.interface'
 
@@ -26,7 +26,8 @@ export function useAuthForm(isReg: boolean) {
             form.reset()
             setUser(data.user) // * Update global user state
             toast.success('Successfull authorization')
-            router.replace(DASHBOARD_URL.home())
+            // * This prevents the middleware from redirecting back to /auth before the client-side state/token is fully synced.
+            router.replace(PUBLIC_URL.home()) 
         },
         onError(error) {
             if (error.message) {
