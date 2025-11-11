@@ -1,45 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🗺️ Visual Analyzer: Geotagged Photo Visualization
 
-## Getting Started
+This project is built as a technical interview exercise to demonstrate full-stack development skills, focusing on authentication, media handling, geospatial data visualization, and microservice integration.
 
-First, run the development server:
+## 🚀 Project Goal (The Exercise)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The goal is to build a web application allowing users to sign up/log in, upload geotagged photos, and display those photos as markers on an interactive map. Users must be able to click a marker to view the image and add comments.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Technology Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Component | Technology | Reasoning |
+| :--- | :--- | :--- |
+| **Frontend** | **Next.js (App Router)** + **TypeScript** | Modern React framework for performant client-side rendering and static data fetching, leveraging strong typing. |
+| **Styling/UI** | **Tailwind CSS** + **Shadcn/ui** | Rapid, utility-first styling for a professional, responsive design. Shadcn provides pre-built, accessible components. |
+| **State/Data** | **React Query** (TanStack Query) + **React Context** | Manages server state (API fetching/caching) and client-side auth state efficiently. |
+| **Backend/API** | **NestJS** + **TypeScript** | Scalable, modular framework built on Node.js/Express (monorepo structure). |
+| **Database** | **PostgreSQL** + **Prisma ORM** | Reliable, feature-rich relational database with type-safe queries. |
+| **Authentication** | **JWT (Access/Refresh Tokens)** | Secure authentication using HTTP-only refresh tokens. |
+| **Storage** | **Supabase Storage (S3-compatible)** | Cloud-based, scalable object storage for binary files (photos). |
+| **Map Visualization** | **MapLibre GL JS** | Open-source, fast, and feature-rich library for displaying vector tiles and custom markers. |
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🏗️ System Architecture & Data Flow
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 1. Core Services
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* **Auth Service:** Handles user registration, login, token issuance, and validation.
+* **User Service:** Manages user profile retrieval.
+* **Photo Service:** Manages photo uploads, geospatial data extraction, and storing photo metadata (URL, Lat/Lng).
+* **Comment Service:** Manages comments linked to photos.
 
-## Deploy on Vercel
+### 2. Image Upload and Display Flow (Map Integration)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-CONTEXT : VISUAL ANALYSER FULL-STACK PROJECT
-
-This is the complete technical context for building the Next.js Frontend.
-
-**GOAL:** Build a functional Next.js application (Frontend) that interfaces with a complete NestJS API (Backend) to visualize geotagged photos on a map, allow user authentication, photo uploads, and commenting.
+1.  **User Action:** User selects a photo on the Dashboard.
+2.  **Geospatial Extraction:** The Frontend reads the **GPS data (Lat/Lng)** from the EXIF metadata of the image file.
+3.  **File Upload:** The raw image file is uploaded directly to **Supabase Storage**. Supabase returns a public access URL.
+4.  **Metadata Save:** Frontend sends the **Supabase URL**, **extracted Lat/Lng**, and the **User ID** to the NestJS Photo API (`POST /photos`).
+5.  **Map Display:** The Dashboard fetches the list of photos (`GET /photos`) and uses the Lat/Lng coordinates to place **markers** on the map via MapLibre GL JS.
 
 ---
 
@@ -73,3 +72,28 @@ The API is deployed and running on a base URL (e.g., `process.env.NEXT_PUBLIC_AP
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `/photos/:photoId/comments`| `POST` | Protected | Creates a new comment on a specific photo. | `{text: string}` | `ICommentRdo` |
 | `/photos/:photoId/comments`| `GET` | Public | Fetches all comments for a specific photo. | None | `ICommentRdo[]` |
+
+---
+
+## 💻 Getting Started (Local Development)
+
+### Prerequisites
+
+* Node.js (v20+)
+* Docker (for local PostgreSQL instance)
+* Prisma CLI
+
+### Installation
+
+```bash
+# Clone the repository (Assuming monorepo structure: visual-analyser and visual-analyser-api)
+git clone [YOUR_REPO_URL]
+cd visual-analyser
+
+# Frontend setup
+npm install
+cd ../visual-analyser-api
+
+# Backend setup
+npm install
+npx prisma generate
