@@ -2,7 +2,7 @@ import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 
 import { SITE_DESCRIPTION, SITE_NAME } from '@/src/presentation/constants/seo.constants'
-import './global.css'
+import './globals.css'
 import { Providers } from './providers'
 
 export const metadata: Metadata = {
