@@ -7,6 +7,9 @@ import { useRouter } from 'next/navigation'
 import { authService } from '@/src/services/auth/auth.service'
 import { useAuthContext } from '../auth/AuthContext'
 
+import { MapComponent } from './MapComponent'
+import { PhotoUploader } from './PhotoUploader'
+
 export function Dashboard() {
   const router = useRouter()
   const { user, logout: logoutContext } = useAuthContext() 
@@ -20,14 +23,14 @@ export function Dashboard() {
     }
 
     logoutContext() 
-
     router.push('/auth') 
   }
 
   if (!user) return null
 
   return (
-    <div className="p-8">
+    <div className="p-8 space-y-8">
+      {/* Header */}
       <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-zinc-700">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           Visual Analyzer Dashboard
@@ -43,11 +46,18 @@ export function Dashboard() {
         </div>
       </div>
 
-      {/* Placeholder for the main Map and Upload Content */}
-      <div className="mt-8 bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-zinc-800">
-          <p className="text-gray-600 dark:text-gray-400">
-              Content for the Map and Photo Uploader goes here.
-          </p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* Left Column: Uploader */}
+        <div className="lg:col-span-1">
+            <PhotoUploader />
+        </div>
+        
+        {/* Right Column: Map */}
+        <div className="lg:col-span-2 min-h-[600px] h-full">
+            <MapComponent />
+        </div>
+        
       </div>
     </div>
   )
