@@ -6,8 +6,6 @@ This project is built as a technical interview exercise to demonstrate full-stac
 
 The goal is to build a web application allowing users to sign up/log in, upload geotagged photos, and display those photos as markers on an interactive map. Users must be able to click a marker to view the image and add comments.
 
----
-
 ## 🛠️ Technology Stack
 
 | Component | Technology | Reasoning |
@@ -20,8 +18,6 @@ The goal is to build a web application allowing users to sign up/log in, upload 
 | **Authentication** | **JWT (Access/Refresh Tokens)** | Secure authentication using HTTP-only refresh tokens. |
 | **Storage** | **Supabase Storage (S3-compatible)** | Cloud-based, scalable object storage for binary files (photos). |
 | **Map Visualization** | **MapLibre GL JS** | Open-source, fast, and feature-rich library for displaying vector tiles and custom markers. |
-
----
 
 ## 🏗️ System Architecture & Data Flow
 
@@ -39,8 +35,6 @@ The goal is to build a web application allowing users to sign up/log in, upload 
 3.  **File Upload:** The raw image file is uploaded directly to **Supabase Storage**. Supabase returns a public access URL.
 4.  **Metadata Save:** Frontend sends the **Supabase URL**, **extracted Lat/Lng**, and the **User ID** to the NestJS Photo API (`POST /photos`).
 5.  **Map Display:** The Dashboard fetches the list of photos (`GET /photos`) and uses the Lat/Lng coordinates to place **markers** on the map via MapLibre GL JS.
-
----
 
 ## 🚀 BACKEND API SPECIFICATION (NestJS)
 
@@ -72,8 +66,6 @@ The API is deployed and running on a base URL (e.g., `process.env.NEXT_PUBLIC_AP
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `/photos/:photoId/comments`| `POST` | Protected | Creates a new comment on a specific photo. | `{text: string}` | `ICommentRdo` |
 | `/photos/:photoId/comments`| `GET` | Public | Fetches all comments for a specific photo. | None | `ICommentRdo[]` |
-
----
 
 ## 💻 Getting Started (Local Development)
 
