@@ -7,34 +7,39 @@ import { DASHBOARD_URL } from '@/src/config/url.config'
 import { authService } from '@/src/services/auth/auth.service'
 import { IAuthForm } from '@/src/shared/domain/entities/auth.interface'
 
+import { useAuthContext } from './AuthContext'
+
 export function useAuthForm(isReg: boolean) {
-	const router = useRouter()
+    const router = useRouter()
 
-	const form = useForm<IAuthForm>({
-		mode: 'onChange'
-	})
+    const { setUser } = useAuthContext() 
 
-	const { mutate, isPending } = useMutation({
-		mutationKey: ['auth user'],
-		mutationFn: (data: IAuthForm) =>
-			authService.main(isReg ? 'register' : 'login', data),
-		onSuccess() {
-			form.reset()
-			toast.success('Successfull authorization')
-			router.replace(DASHBOARD_URL.home())
-		},
-		onError(error) {
-			if (error.message) {
-				toast.error(error.message)
-			} else {
-				toast.error('Authorization error')
-			}
-		}
-	})
+    const form = useForm<IAuthForm>({
+        mode: 'onChange'
+    })
 
-	const onSubmit: SubmitHandler<IAuthForm> = data => {
-		mutate(data)
-	}
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['auth user', isReg ? 'register' : 'login'],
+        mutationFn: (data: IAuthForm) =>
+            authService.main(isReg ? 'register' : 'login', data),
+        onSuccess({ data }) {
+            form.reset()
+            setUser(data.user) // * Update global user state
+            toast.success('Successfull authorization')
+            router.replace(DASHBOARD_URL.home())
+        },
+        onError(error) {
+            if (error.message) {
+                toast.error(error.message)
+            } else {
+                toast.error('Authorization error')
+            }
+        }
+    })
 
-	return { onSubmit, form, isPending }
+    const onSubmit: SubmitHandler<IAuthForm> = data => {
+        mutate(data)
+    }
+
+    return { onSubmit, form, isPending }
 }

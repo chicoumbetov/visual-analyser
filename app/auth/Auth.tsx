@@ -16,37 +16,35 @@ export function Auth() {
 	const { onSubmit, form, isPending } = useAuthForm(isReg)
 
 	return (
-		<div >
-			<Card>
-				<CardHeader >
-					<CardTitle>
-						{isReg ? 'Create account' : 'Sign in account'}
-					</CardTitle>
-					<CardDescription>
-						Enter or create account
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)}>
-							<AuthFields
-								form={form}
-								isPending={isPending}
-								isReg={isReg}
-							/>
+		<Card>
+			<CardHeader >
+				<CardTitle>
+					{isReg ? 'Create account' : 'Sign in account'}
+				</CardTitle>
+				<CardDescription>
+					Enter or create account
+				</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit(onSubmit)}>
+						<AuthFields
+							form={form}
+							isPending={isPending}
+							isReg={isReg}
+						/>
 
-							<Button disabled={isPending}>Continue</Button>
-						</form>
-					</Form>
-					<Social />
-				</CardContent>
-				<CardFooter >
-					{isReg ? 'Already have account ?' : 'No account yet?'}
-					<button onClick={() => setIsReg(!isReg)}>
-						{isReg ? 'Sign in' : 'Sign up'}
-					</button>
-				</CardFooter>
-			</Card>
-		</div>
+						<Button disabled={isPending}>Continue</Button>
+					</form>
+				</Form>
+				<Social />
+			</CardContent>
+			<CardFooter >
+				{isReg ? 'Already have account ?' : 'No account yet?'}
+				<button onClick={() => setIsReg(!isReg)}>
+					{isReg ? 'Sign in' : 'Sign up'}
+				</button>
+			</CardFooter>
+		</Card>
 	)
 }
