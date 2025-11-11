@@ -5,7 +5,7 @@ import { SERVER_URL } from '../../../config/api.config'
 import {
     getAccessToken,
     removeFromStorage
-} from '@/src/services/auth/auth-token.serice'
+} from '@/src/services/auth/auth-token.service'
 import { authService } from '@/src/services/auth/auth.service'
 
 import { errorCatch, getContentType } from './api.helper'

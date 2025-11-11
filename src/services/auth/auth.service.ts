@@ -4,7 +4,7 @@ import { API_URL } from '../../config/api.config'
 
 import { IAuthForm, IAuthResponse } from '../../shared/domain/entities/auth.interface'
 
-import { removeFromStorage, saveTokenStorage } from './auth-token.serice'
+import { removeFromStorage, saveTokenStorage } from './auth-token.service'
 
 class AuthService {
 	async main(type: 'login' | 'register', data: IAuthForm) {
