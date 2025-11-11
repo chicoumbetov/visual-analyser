@@ -133,3 +133,16 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.map-container {
+  /* Ensure map takes full height of parent element */
+  height: 100%;
+}
+
+.map-marker svg {
+  /* Styles for the custom marker icon */
+  color: #ef4444; /* Tailwind red-500 */
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
