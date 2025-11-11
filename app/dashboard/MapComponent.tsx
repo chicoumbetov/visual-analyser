@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { photoService } from '@/src/photo/services/photo.service';
 import { IPhotoRdo } from '@/src/shared/domain/entities/photo.interface';
+import { usePhotoModal } from './usePhotoModal';
 
 const DEFAULT_CENTER: [number, number] = [34.0, 48.0] // Center of Eurasia / central region
 const DEFAULT_ZOOM = 3
@@ -42,6 +43,7 @@ export function MapComponent() {
         }
 
         const mapInstance = mapRef.current
+        const { openModal } = usePhotoModal.getState()
 
         // Clean up old markers
         markers.forEach(marker => marker.remove())
@@ -60,10 +62,15 @@ export function MapComponent() {
                 el.className = 'map-marker'
                 el.innerHTML = '<svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6 text-red-500 hover:text-red-700 transition-colors"><path d="M10 2a6 6 0 00-6 6c0 4.418 5.4 10.4 6 10.4s6-5.982 6-10.4a6 6 0 00-6-6zm0 9a3 3 0 110-6 3 3 0 010 6z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>'
                 
+                // Add click handler to the marker element
+                el.addEventListener('click', () => {
+                    openModal(id) // Opens the modal with the photo ID
+                })
+                
                 // Create a marker instance
                 const marker = new maplibregl.Marker({ element: el })
                     .setLngLat([longitude, latitude])
-                    // .setPopup(new maplibregl.Popup({ offset: 25 }).setHTML(`...`)) 
+                    // REMOVE setPopup line if it exists
                     .addTo(mapInstance)
                 
                 newMarkers.push(marker)

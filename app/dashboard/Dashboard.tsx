@@ -8,6 +8,7 @@ import { authService } from '@/src/services/auth/auth.service'
 import { useAuthContext } from '../auth/AuthContext'
 
 import { MapComponent } from './MapComponent'
+import { PhotoDetailsModal } from './PhotoDetailsModal'
 import { PhotoUploader } from './PhotoUploader'
 
 export function Dashboard() {
@@ -59,6 +60,8 @@ export function Dashboard() {
         </div>
         
       </div>
+
+      <PhotoDetailsModal />
     </div>
   )
 }
