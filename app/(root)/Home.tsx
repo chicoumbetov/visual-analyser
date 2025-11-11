@@ -29,11 +29,6 @@ export function Home(props: HomeProps) {
 
   // * Authenticated Flow: If user is logged in, show the main application (Map/Dashboard)
   return (
-    <div className="w-full p-4">
-      {/* This is where the core application—the map and photo uploader—will reside.
-        For now, we'll use a placeholder component.
-      */}
-      <Dashboard />
-    </div>
+    <Dashboard />
   );
 }

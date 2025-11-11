@@ -29,10 +29,10 @@ export function Dashboard() {
   if (!user) return null
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-4 space-y-4">
       {/* Header */}
       <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-zinc-700">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           Visual Analyzer Dashboard
         </h1>
         <div className="flex items-center space-x-4">
@@ -54,7 +54,7 @@ export function Dashboard() {
         </div>
         
         {/* Right Column: Map */}
-        <div className="lg:col-span-2 min-h-[600px] h-full">
+        <div className="lg:col-span-2 min-h-[550px] h-full">
             <MapComponent />
         </div>
         
