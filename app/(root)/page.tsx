@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { Home } from './Home'
 
 export const metadata: Metadata = {
-	title: 'You shopping, your pleasure - all in one place !'
+	title: 'Analyse image'
 }
 
 export const revalidate = 60
