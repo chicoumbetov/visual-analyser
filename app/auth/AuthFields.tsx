@@ -6,19 +6,19 @@ import { IAuthForm } from '../../src/shared/domain/entities/auth.interface';
 import { validEmail } from '../../src/utils/regex';
 
 interface AuthFieldsProps {
-	form: { control: Control<IAuthForm> } // UseFormReturn<IAuthForm, unknown>
-	isPending: boolean
-	isReg?: boolean
+  form: { control: Control<IAuthForm> }
+  isPending: boolean
+  isReg?: boolean
 }
 
 export function AuthFields({
-	form,
-	isPending,
-	isReg = false
+  form,
+  isPending,
+  isReg = false
 }: AuthFieldsProps) {
-	return (
-		<>
-			{isReg && (
+  return (
+    <div className='space-y-4'> 
+      {isReg && (
 				<FormField<IAuthForm>
 					control={form.control}
 					name='name'
@@ -29,7 +29,7 @@ export function AuthFields({
 						<FormItem>
 							<FormControl>
 								<Input
-									placeholder='François'
+									placeholder='Name'
 									disabled={isPending}
 									{...field}
 								/>
@@ -53,7 +53,7 @@ export function AuthFields({
 					<FormItem>
 						<FormControl>
 							<Input
-								placeholder='ivan@examle.com'
+								placeholder='Email'
 								type='email'
 								disabled={isPending}
 								{...field}
@@ -77,7 +77,7 @@ export function AuthFields({
 					<FormItem>
 						<FormControl>
 							<Input
-								placeholder='******'
+								placeholder='Password'
 								type='password'
 								disabled={isPending}
 								{...field}
@@ -86,7 +86,7 @@ export function AuthFields({
 						<FormMessage />
 					</FormItem>
 				)}
-			/>
-		</>
-	)
+      />
+    </div>
+  )
 }
