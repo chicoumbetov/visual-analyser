@@ -11,14 +11,14 @@ import { photoService } from '@/src/photo/services/photo.service';
 import { IPhotoRdo } from '@/src/shared/domain/entities/photo.interface';
 import { usePhotoModal } from './usePhotoModal';
 
-const DEFAULT_CENTER: [number, number] = [34.0, 48.0] // Center of Eurasia / central region
-const DEFAULT_ZOOM = 3
+const DEFAULT_CENTER: [number, number] = [2.7, 46.5] // Center of France
+const DEFAULT_ZOOM = 5
 
 const STADIA_API_KEY = process.env.NEXT_PUBLIC_STADIA_API_KEY
 
 const STADIA_STYLE_URL = STADIA_API_KEY 
-    ? `https://tiles.stadiamaps.com/styles/osm_bright.json?api_key=${STADIA_API_KEY}`
-    : 'https://tiles.stadiamaps.com/styles/osm_bright/v1.json'
+    ? `https://tiles.stadiamaps.com/styles/osm_bright.json?api_key=${STADIA_API_KEY}` 
+    : 'https://tiles.stadiamaps.com/styles/osm_bright.json';
 
 export function MapComponent() {
     const mapContainerRef = useRef<HTMLDivElement>(null)
@@ -36,15 +36,34 @@ export function MapComponent() {
         if (!mapContainerRef.current) return
 
         if (!mapRef.current) {
-            // Initialize the map if it doesn't exist
+            maplibregl.setRTLTextPlugin(
+                // Use a specific library for RTL support if needed, otherwise ignore this line.
+                'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js', 
+                true
+            )
+            
+            const styleUrl = STADIA_STYLE_URL
+    
             mapRef.current = new Map({
                 container: mapContainerRef.current,
-                style: STADIA_STYLE_URL,
+                style: styleUrl, // Use the base URL
                 center: DEFAULT_CENTER,
                 zoom: DEFAULT_ZOOM,
                 attributionControl: false,
-            })
-
+    
+                // *** IMPORTANT: Use transformRequest to hide the key from the style URL ***
+                transformRequest: (url, resourceType) => {
+                    // Only modify requests for Stadia tile resources (resourceType == 'Tile')
+                    if (STADIA_API_KEY && url.startsWith('https://tiles.stadiamaps.com') && resourceType === 'Tile') {
+                        const separator = url.includes('?') ? '&' : '?';
+                        return {
+                            url: `${url}${separator}api_key=${STADIA_API_KEY}`,
+                        };
+                    }
+                    return { url };
+                }
+            });
+    
             mapRef.current.addControl(new maplibregl.NavigationControl(), 'top-right')
         }
 
@@ -83,12 +102,23 @@ export function MapComponent() {
             })
             
             setMarkers(newMarkers)
+            const isSinglePoint = bounds.getNorthEast().lng === bounds.getSouthWest().lng && 
+            bounds.getNorthEast().lat === bounds.getSouthWest().lat;
 
-            // Fit the map to the bounds of all photos if there are markers
-            mapInstance.fitBounds(bounds, {
-                padding: 50,
-                duration: 1000,
-            })
+            if (isSinglePoint) {
+                // Option 1: Just fly to the center of the single point with a standard zoom (e.g., zoom 10 or 12)
+                mapInstance.flyTo({
+                    center: [photos[0].longitude, photos[0].latitude],
+                    zoom: 10,
+                    duration: 1000,
+                });
+            } else {
+                // Option 2: Fit to bounds for multiple distinct points
+                mapInstance.fitBounds(bounds, {
+                    padding: 100,
+                    duration: 1000,
+                });
+            }
         }
         return () => {
             // The map instance itself should NOT be removed, just the markers
