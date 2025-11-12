@@ -3,16 +3,16 @@ import axios, { AxiosError, CreateAxiosDefaults, InternalAxiosRequestConfig } fr
 import { SERVER_URL } from '../../../config/api.config'
 
 import {
-    getAccessToken,
-    removeFromStorage
+	getAccessToken,
+	removeFromStorage
 } from '@/src/services/auth/auth-token.service'
 import { authService } from '@/src/services/auth/auth.service'
 
-import { errorCatch, getContentType } from './api.helper'
+import { errorCatch } from './api.helper'
 
 const options: CreateAxiosDefaults = {
 	baseURL: SERVER_URL,
-	headers: getContentType(),
+	// headers: getContentType(),
 	withCredentials: true
 }
 
@@ -25,6 +25,10 @@ axiosWithAuth.interceptors.request.use(config => {
 	if (config?.headers && accessToken)
 		config.headers.Authorization = `Bearer ${accessToken}`
 
+	if (!(config.data instanceof FormData) && !config.headers['Content-type']) {
+        config.headers['Content-type'] = 'application/json'
+    }
+
 	return config
 })
 
@@ -35,7 +39,7 @@ axiosWithAuth.interceptors.response.use(
 
 		if (
 			(error?.response?.status === 401 ||
-				errorCatch(error) === 'jwt expried' ||
+				errorCatch(error) === 'jwt expired' ||
 				errorCatch(error) === 'jwt must be provided') &&
 			error.config &&
 			!error.config._isRetry
