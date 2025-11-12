@@ -25,7 +25,7 @@ export function PhotoDetailsModal() {
 
     return (
         <Dialog open={isDialogOpen} onOpenChange={(open) => !open && closeModal()}>
-            <DialogContent className='max-w-4xl p-0 h-[85vh] flex flex-col'>
+            <DialogContent className='max-w-2xl p-0 h-[85vh] flex flex-col'>
                 <DialogHeader className='p-6 pb-0'>
                     <DialogTitle className='text-2xl font-bold'>
                         {photo?.title || 'Loading Photo Details...'}
@@ -46,16 +46,15 @@ export function PhotoDetailsModal() {
                 )}
 
                 {photo && (
-                    <div className='flex h-full overflow-hidden'>
+                    <div className='flex flex-col h-full overflow-hidden'>
                         {/* Left Side: Photo & Metadata */}
-                        <div className='w-2/3 flex flex-col p-6 pr-3 overflow-y-auto'>
+                        <div className='flex flex-row p-3 pl-6 overflow-y-auto'>
                             <div className='relative w-full aspect-[4/3] bg-gray-100 dark:bg-zinc-800 rounded-lg overflow-hidden'>
                                 <Image
                                     src={photo.imageUrl}
                                     alt={photo.title}
-                                    height={228}
-                                    width={304}
-                                    layout='fill'
+                                    height={240}
+                                    width={413}
                                     objectFit='contain'
                                     className='transition-opacity duration-500'
                                 />
@@ -76,7 +75,7 @@ export function PhotoDetailsModal() {
                         </div>
 
                         {/* Right Side: Comments */}
-                        <div className='w-1/3 p-6 pl-3 border-l dark:border-zinc-700 overflow-y-auto'>
+                        <div className='w-full p-6 pl-3 border-t dark:border-zinc-700 overflow-y-auto'>
                             <CommentSection photoId={photo.id} comments={photo.comments} />
                         </div>
                     </div>

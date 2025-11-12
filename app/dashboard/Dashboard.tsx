@@ -55,7 +55,7 @@ export function Dashboard() {
         </div>
         
         {/* Right Column: Map */}
-        <div className="lg:col-span-2 min-h-[550px] h-full">
+        <div className="lg:col-span-2 min-h-[400px] h-full">
             <MapComponent />
         </div>
         

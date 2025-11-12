@@ -45,7 +45,7 @@ export function CommentSection({ photoId, comments }: CommentSectionProps) {
     }
 
     return (
-        <div className='mt-6 space-y-4'>
+        <div className='mt-1 space-y-2'>
             <h3 className='text-lg font-semibold'>Comments ({comments.length})</h3>
             
             {/* Comment Submission Form */}

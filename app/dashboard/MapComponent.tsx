@@ -117,6 +117,7 @@ export function MapComponent() {
                 mapInstance.fitBounds(bounds, {
                     padding: 100,
                     duration: 1000,
+                    maxZoom: 12,
                 });
             }
         }
@@ -132,7 +133,7 @@ export function MapComponent() {
                     <MapPin className='w-5 h-5'/> Photo Visualization
                 </CardTitle>
             </CardHeader>
-            <CardContent className='p-0 h-[calc(100%-80px)]'>
+            <CardContent className='p-0 h-[calc(100%)]'>
                 {isLoading && (
                     <div className='absolute inset-0 flex items-center justify-center bg-background/80 z-10'>
                         <p className='text-lg font-medium'>Loading Map and Photos...</p>
