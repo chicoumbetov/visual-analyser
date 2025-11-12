@@ -61,22 +61,54 @@ export function PhotoDetailsModal() {
                             </div>
                             
                             {/* Metadata */}
-                            <div className='mt-4 p-4 bg-secondary/20 rounded-lg text-sm space-y-1'>
+                            <div className='p-3 bg-secondary/20 rounded-lg text-sm space-y-1'>
                                 <p className='font-semibold flex items-center gap-2 text-primary'>
                                     <MapPin className='w-4 h-4'/> Location & Details
                                 </p>
                                 <p>Uploaded by: **{photo.user.name || 'Anonymous'}**</p>
                                 <p>Taken on: {format(new Date(photo.createdAt), 'MMM d, yyyy HH:mm')}</p>
                                 <p>Coordinates: **Lat {photo.latitude.toFixed(6)}, Lng {photo.longitude.toFixed(6)}**</p>
-                                {photo.aiDescription && (
-                                    <p className='mt-2 italic text-muted-foreground'>AI Description: {photo.aiDescription}</p>
-                                )}
                             </div>
+
                         </div>
 
                         {/* Right Side: Comments */}
                         <div className='w-full p-6 pl-3 border-t dark:border-zinc-700 overflow-y-auto'>
                             <CommentSection photoId={photo.id} comments={photo.comments} />
+
+                            {photo && (
+                                <>
+                                    {photo.aiDescription && (
+                                        <p className='mt-2 italic text-muted-foreground'>AI Description: {photo.aiDescription}</p>
+                                    )}
+                                    <p className='font-semibold flex items-center gap-2 text-primary mt-3'>
+                                        AI Analysis
+                                    </p>
+                                    
+                                    {!photo.aiDescription && (
+                                        // Status for photos where AI failed (returns null)
+                                        <p className='text-red-500 italic'>
+                                            <RotateCw className='w-4 h-4 inline-block mr-1'/> 
+                                            Analysis failed or is pending.
+                                        </p>
+                                    )}
+                                    
+                                    {photo.aiDescription && (
+                                        // Display the saved, synchronous description
+                                        <p className='italic text-muted-foreground break-words'>
+                                            {photo.aiDescription}
+                                        </p>
+                                    )}
+                                    
+                                    {/* // * FUTURE IMPLEMENTATION: BUTTON FOR STREAMING RE-ANALYSIS
+                                        // For now, this is commented out, but this is where you would place the
+                                        // button that triggers the streaming call to /ai/stream-analysis 
+                                        <button className='mt-2 text-xs text-blue-500 hover:underline'>
+                                            Re-analyze in real-time
+                                        </button>
+                                    */}
+                                </>)
+                            }
                         </div>
                     </div>
                 )}

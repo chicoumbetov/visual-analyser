@@ -89,3 +89,17 @@ cd ../visual-analyser-api
 # Backend setup
 npm install
 npx prisma generate
+
+## ⏰ Estimated Time Allocation
+
+The following is a realistic time estimate to complete the "Builder" part of this exercise end-to-end:
+
+| Step | Estimated Time |
+| :--- | :--- |
+| Project Setup (Monorepo, Next.js, NestJS, Docker/DB) | 1.5 hours |
+| Backend API (Auth, Photo, Comment Endpoints) & Prisma Schema | 4.0 hours |
+| Authentication (Frontend Integration, JWT Handling, Context) | 2.0 hours |
+| Photo Upload & EXIF Data Extraction (Frontend logic) | 1.5 hours |
+| Map Integration (MapLibre GL JS, Marker Display) | 1.5 hours |
+| UI/Styling (Tailwind/Shadcn components) | 1.5 hours |
+| **Total Estimated Build Time** | **12.0 hours** |
