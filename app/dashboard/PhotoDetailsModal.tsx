@@ -53,6 +53,8 @@ export function PhotoDetailsModal() {
                                 <Image
                                     src={photo.imageUrl}
                                     alt={photo.title}
+                                    height={228}
+                                    width={304}
                                     layout='fill'
                                     objectFit='contain'
                                     className='transition-opacity duration-500'
