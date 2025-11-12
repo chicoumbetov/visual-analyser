@@ -61,8 +61,6 @@ export function MapComponent() {
                 const el = document.createElement('div')
                 el.className = 'map-marker'
                 el.innerHTML = '<svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6 text-red-500 hover:text-red-700 transition-colors"><path d="M10 2a6 6 0 00-6 6c0 4.418 5.4 10.4 6 10.4s6-5.982 6-10.4a6 6 0 00-6-6zm0 9a3 3 0 110-6 3 3 0 010 6z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>'
-                
-                // Add click handler to the marker element
                 el.addEventListener('click', () => {
                     openModal(id) // Opens the modal with the photo ID
                 })
@@ -70,7 +68,7 @@ export function MapComponent() {
                 // Create a marker instance
                 const marker = new maplibregl.Marker({ element: el })
                     .setLngLat([longitude, latitude])
-                    // REMOVE setPopup line if it exists
+                    // .setPopup(new maplibregl.Popup({ offset: 25 }).setHTML(`...`)) 
                     .addTo(mapInstance)
                 
                 newMarkers.push(marker)
