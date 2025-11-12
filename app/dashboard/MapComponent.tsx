@@ -14,6 +14,12 @@ import { usePhotoModal } from './usePhotoModal';
 const DEFAULT_CENTER: [number, number] = [34.0, 48.0] // Center of Eurasia / central region
 const DEFAULT_ZOOM = 3
 
+const STADIA_API_KEY = process.env.NEXT_PUBLIC_STADIA_API_KEY
+
+const STADIA_STYLE_URL = STADIA_API_KEY 
+    ? `https://tiles.stadiamaps.com/styles/osm_bright.json?api_key=${STADIA_API_KEY}`
+    : 'https://tiles.stadiamaps.com/styles/osm_bright/v1.json'
+
 export function MapComponent() {
     const mapContainerRef = useRef<HTMLDivElement>(null)
     const mapRef = useRef<Map | null>(null)
@@ -33,7 +39,7 @@ export function MapComponent() {
             // Initialize the map if it doesn't exist
             mapRef.current = new Map({
                 container: mapContainerRef.current,
-                style: 'https://tiles.stadiamaps.com/styles/osm_bright.json', // A free, common tile style
+                style: STADIA_STYLE_URL,
                 center: DEFAULT_CENTER,
                 zoom: DEFAULT_ZOOM,
                 attributionControl: false,
